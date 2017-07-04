@@ -1,0 +1,31 @@
+# Problem Statement: There are n houses build in a line, each of which contain some value in it. A thief is going to steal the maximual value of these houses, but he can't steal in any two adjacent houses because the owner of the stolen house will tell his two neighbours left and right side. What is the maximum stolen value.
+
+# Calculate the maximum stolen value
+# assume: houses with value are hval[]
+def max_stolen(hval, n):
+  if n == 0:
+    return 0
+  if n == 1:
+    return hval[0]
+  if n == 2:
+    return max(hval[0], hval[1])
+# mx[i] represents maximum value stolen till house i
+  mx = [0]*n
+  
+  # initilize mx[0] and mx[1]
+  mx[0] = hval[0]
+  mx[1] = max(hval[0], hval[1])
+  
+  # fill remaining positions
+  for i in range(2,n):
+    mx[i] = max(hval[i] + hval[i-2], mx[i-1])
+  return mx[-1]
+
+# Test to above code
+def main():
+  hval = [6,7,3,1,4,6,2]
+  n = len(hval)
+  print('Maximum stolen value: {}' .format(max_stolen(hval, n)))
+
+if _name_ == '_main_':
+  main()
