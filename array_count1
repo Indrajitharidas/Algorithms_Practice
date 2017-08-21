@@ -1,0 +1,12 @@
+Problem Statement: Given an array of ints, return the number of 1's in the array.
+
+Solution:
+
+def array_count(nums):
+  count = 0
+  # Standard loop to look at each value
+  for num in nums:
+    if num == 1:
+      count = count + 1
+
+  return count
