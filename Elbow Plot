@@ -1,0 +1,26 @@
+context1 <- read.csv("Boston.csv")
+context1 <- context1[,2:15]
+
+##########################
+### K-means Estimation ###
+##########################
+?kmeans
+seed        <-	443	
+maxClusters	<-	50 
+
+## Use within-group variation to choose k
+wss	<- rep(-1,maxClusters)
+for (k in 1:maxClusters) {
+  set.seed(seed)
+  model <- kmeans(context1,centers=k,nstart=10)
+  wss[k] <- model$tot.withinss
+}
+plot(1:maxClusters,	wss, type="b", 
+     xlab="Number of Clusters",
+     ylab="Aggregate Within Group SS")
+
+## Run the model
+set.seed(seed)
+model1 <- kmeans(context1,centers=3,nstart=10)
+model1$centers
+groups1 <- model1$cluster
