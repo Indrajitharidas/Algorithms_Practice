@@ -1,0 +1,26 @@
+library(nnet)
+library(data.table)
+
+# Data prepration
+df <- fread('data_df.csv')
+str(df)
+df$Resolve <- factor(df$Resolve) # converting into factor type
+df$Resolve <- relevel(df$Resolve, ref = '1')
+
+
+mdl <- multinom(Resolve ~ WS + FE + JC + LE + ISS + TES + CFS, data = df)
+summary(mdl)
+AIC(mdl)
+
+# Prediction
+prediction <- predict(mdl, df)
+predict(mdl, df, type = 'prob')
+
+# Comparison with actual data
+cm <- table(prediction, df$Resolve)
+cm
+
+# Z test
+z <- summary(mdl)$coefficients/summary(mdl)$standard.errors
+p <- (1 - pnorm(abs(z), 0, 1)) * 2
+p
